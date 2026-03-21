@@ -1,0 +1,67 @@
+{
+  "concept": "fractions-advanced",
+  "domain": "number-operations",
+  "grade": 5,
+  "levels": [
+    {
+      "level": 1,
+      "description": "Add fractions with unlike denominators",
+      "templates": [
+        {
+          "id": "fradv-5-1a",
+          "question": "{a}/{b} + {c}/{d} = ?/{lcd}",
+          "variables": {
+            "a": { "min": 1, "max": 3 },
+            "b": { "min": 2, "max": 4 },
+            "c": { "min": 1, "max": 3 },
+            "d": { "min": 5, "max": 7 }
+          },
+          "derived": {
+            "lcd": "{b} * {d}",
+            "na": "{a} * {d}",
+            "nc": "{c} * {b}"
+          },
+          "answer": "{a} * {d} + {c} * {b}",
+          "hints": [
+            "Common denominator: {b} × {d} = {lcd}",
+            "{a}×{d} + {c}×{b} = {na} + {nc} = ?"
+          ],
+          "commonMistakes": [
+            "{a} + {c}",
+            "{a} * {d} + {c}",
+            "{a} * {d} + {c} * {b} + 1"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "description": "Multiply fractions — find the numerator",
+      "templates": [
+        {
+          "id": "fradv-5-2a",
+          "question": "{a}/{b} × {c}/{d} = ?/{bd}",
+          "variables": {
+            "a": { "min": 1, "max": 5 },
+            "b": { "min": 2, "max": 6 },
+            "c": { "min": 1, "max": 5 },
+            "d": { "min": 2, "max": 6 }
+          },
+          "derived": {
+            "bd": "{b} * {d}"
+          },
+          "answer": "{a} * {c}",
+          "hints": [
+            "Multiply straight across: top × top.",
+            "{a} × {c} = ?"
+          ],
+          "commonMistakes": [
+            "{a} + {c}",
+            "{b} * {d}",
+            "{a} * {c} + 1"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "concept": "expressions",
+  "domain": "algebra",
+  "grade": 6,
+  "levels": [
+    {
+      "level": 1,
+      "description": "Evaluate expressions with one variable",
+      "templates": [
+        {
+          "id": "expr-6-1a",
+          "question": "If x = {x}, what is {a}x + {b}?",
+          "variables": {
+            "a": { "min": 2, "max": 6 },
+            "b": { "min": 1, "max": 10 },
+            "x": { "min": 1, "max": 8 }
+          },
+          "derived": {
+            "ax_val": "{a} * {x}"
+          },
+          "answer": "{a} * {x} + {b}",
+          "hints": [
+            "Replace x with {x}: {a} × {x} + {b}",
+            "First: {a} × {x} = {ax_val}. Then: {ax_val} + {b} = ?"
+          ],
+          "commonMistakes": [
+            "{a} + {x} + {b}",
+            "{a} * {x}",
+            "{a} * {x} + {b} + 1"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "description": "Order of operations",
+      "templates": [
+        {
+          "id": "expr-6-2a",
+          "question": "{a} + {b} × {c} = ?",
+          "variables": {
+            "a": { "min": 1, "max": 10 },
+            "b": { "min": 2, "max": 6 },
+            "c": { "min": 2, "max": 6 }
+          },
+          "derived": {
+            "bc_val": "{b} * {c}"
+          },
+          "answer": "{a} + {b} * {c}",
+          "hints": [
+            "Multiplication first! Do {b} × {c} before adding.",
+            "{b} × {c} = {bc_val}. Now: {a} + {bc_val} = ?"
+          ],
+          "commonMistakes": [
+            "({a} + {b}) * {c}",
+            "{a} * {b} + {c}",
+            "{a} + {b} + {c}"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "description": "Evaluate with parentheses",
+      "templates": [
+        {
+          "id": "expr-6-3a",
+          "question": "({a} + {b}) × {c} = ?",
+          "variables": {
+            "a": { "min": 1, "max": 8 },
+            "b": { "min": 1, "max": 8 },
+            "c": { "min": 2, "max": 5 }
+          },
+          "derived": {
+            "sum_val": "{a} + {b}"
+          },
+          "answer": "({a} + {b}) * {c}",
+          "hints": [
+            "Parentheses first! {a} + {b} = ?",
+            "{a} + {b} = {sum_val}. Now: {sum_val} × {c} = ?"
+          ],
+          "commonMistakes": [
+            "{a} + {b} * {c}",
+            "{a} * {c} + {b}",
+            "({a} + {b}) * {c} + 1"
+          ]
+        }
+      ]
+    }
+  ]
+}

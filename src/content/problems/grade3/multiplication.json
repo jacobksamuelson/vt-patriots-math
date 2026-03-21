@@ -1,0 +1,79 @@
+{
+  "concept": "multiplication",
+  "domain": "number-operations",
+  "grade": 3,
+  "levels": [
+    {
+      "level": 1,
+      "description": "Multiply by 1–5",
+      "templates": [
+        {
+          "id": "mult-3-1",
+          "question": "{a} × {b} = ?",
+          "variables": {
+            "a": { "min": 2, "max": 5 },
+            "b": { "min": 1, "max": 5 }
+          },
+          "answer": "{a} * {b}",
+          "hints": [
+            "Think of {a} groups of {b} objects.",
+            "Try skip counting: count by {a}s until you reach the {b}th number."
+          ],
+          "commonMistakes": [
+            "{a} + {b}",
+            "{a} * {b} + 1",
+            "{a} * {b} - 1"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "description": "Multiply by 5–9",
+      "templates": [
+        {
+          "id": "mult-3-2",
+          "question": "{a} × {b} = ?",
+          "variables": {
+            "a": { "min": 2, "max": 9 },
+            "b": { "min": 5, "max": 9 }
+          },
+          "answer": "{a} * {b}",
+          "hints": [
+            "Break it up: {a} × {b} = {a} × {half} + {a} × {rest}",
+            "The answer is between {low} and {high}."
+          ],
+          "commonMistakes": [
+            "{a} * {b} + {a}",
+            "{a} * {b} - {a}",
+            "({a} + 1) * {b}"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "description": "Full times table (2–12)",
+      "templates": [
+        {
+          "id": "mult-3-3",
+          "question": "{a} × {b} = ?",
+          "variables": {
+            "a": { "min": 2, "max": 12 },
+            "b": { "min": 2, "max": 12 }
+          },
+          "answer": "{a} * {b}",
+          "hints": [
+            "Try flipping it: {b} × {a} might be easier.",
+            "Think: {a} × 10 = {a}0. Is the answer close to that?"
+          ],
+          "commonMistakes": [
+            "{a} * {b} + {a}",
+            "{a} * {b} - {b}",
+            "{a} * ({b} - 1)"
+          ]
+        }
+      ]
+    }
+  ]
+}

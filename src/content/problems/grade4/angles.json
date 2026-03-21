@@ -1,0 +1,53 @@
+{
+  "concept": "angles",
+  "domain": "geometry",
+  "grade": 4,
+  "levels": [
+    {
+      "level": 1,
+      "description": "Find missing angle in a right angle",
+      "templates": [
+        {
+          "id": "ang-4-1a",
+          "question": "A right angle is split into {a}° and ?°",
+          "variables": {
+            "a": { "min": 10, "max": 80 }
+          },
+          "answer": "90 - {a}",
+          "hints": [
+            "A right angle is 90°.",
+            "90 − {a} = ?"
+          ],
+          "commonMistakes": [
+            "180 - {a}",
+            "90 + {a}",
+            "90 - {a} + 10"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "description": "Find missing angle on a straight line",
+      "templates": [
+        {
+          "id": "ang-4-2a",
+          "question": "Two angles on a line: one is {a}°. The other?",
+          "variables": {
+            "a": { "min": 20, "max": 160 }
+          },
+          "answer": "180 - {a}",
+          "hints": [
+            "Angles on a straight line add up to 180°.",
+            "180 − {a} = ?"
+          ],
+          "commonMistakes": [
+            "360 - {a}",
+            "180 - {a} + 10",
+            "180 - {a} - 10"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "concept": "division",
+  "domain": "number-operations",
+  "grade": 3,
+  "levels": [
+    {
+      "level": 1,
+      "description": "Divide by 1–5, no remainder",
+      "templates": [
+        {
+          "id": "div-3-1",
+          "question": "{product} ÷ {a} = ?",
+          "variables": {
+            "a": { "min": 2, "max": 5 },
+            "b": { "min": 1, "max": 5 }
+          },
+          "derived": {
+            "product": "{a} * {b}"
+          },
+          "answer": "{b}",
+          "hints": [
+            "How many groups of {a} make {product}?",
+            "Think backwards: {a} × ? = {product}"
+          ],
+          "commonMistakes": [
+            "{b} + 1",
+            "{b} - 1",
+            "{a}"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "description": "Divide by 2–9, no remainder",
+      "templates": [
+        {
+          "id": "div-3-2",
+          "question": "{product} ÷ {a} = ?",
+          "variables": {
+            "a": { "min": 2, "max": 9 },
+            "b": { "min": 2, "max": 9 }
+          },
+          "derived": {
+            "product": "{a} * {b}"
+          },
+          "answer": "{b}",
+          "hints": [
+            "How many groups of {a} make {product}?",
+            "Use your times tables: {a} × ? = {product}"
+          ],
+          "commonMistakes": [
+            "{b} + 1",
+            "{a}",
+            "{product} - {a}"
+          ]
+        }
+      ]
+    }
+  ]
+}

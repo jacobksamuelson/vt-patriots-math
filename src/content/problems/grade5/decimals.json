@@ -1,0 +1,73 @@
+{
+  "concept": "decimals",
+  "domain": "number-operations",
+  "grade": 5,
+  "levels": [
+    {
+      "level": 1,
+      "description": "Multiply whole numbers by 10, 100",
+      "templates": [
+        {
+          "id": "dec-5-1a",
+          "question": "{a} × {m} = ?",
+          "variables": {
+            "a": { "min": 2, "max": 25 },
+            "m": { "min": 10, "max": 10 }
+          },
+          "answer": "{a} * {m}",
+          "hints": [
+            "Multiplying by 10 means adding a zero.",
+            "{a} × 10 = {a}0"
+          ],
+          "commonMistakes": [
+            "{a} * {m} + {a}",
+            "{a} + {m}",
+            "{a} * {m} - 10"
+          ]
+        },
+        {
+          "id": "dec-5-1b",
+          "question": "{a} × {m} = ?",
+          "variables": {
+            "a": { "min": 2, "max": 12 },
+            "m": { "min": 100, "max": 100 }
+          },
+          "answer": "{a} * {m}",
+          "hints": [
+            "Multiplying by 100 means adding two zeros.",
+            "{a} × 100 = {a}00"
+          ],
+          "commonMistakes": [
+            "{a} * 10",
+            "{a} + {m}",
+            "{a} * {m} + 100"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "description": "Place value — how many tenths?",
+      "templates": [
+        {
+          "id": "dec-5-2a",
+          "question": "How many tenths in {a}.{t}?",
+          "variables": {
+            "a": { "min": 1, "max": 9 },
+            "t": { "min": 1, "max": 9 }
+          },
+          "answer": "{a} * 10 + {t}",
+          "hints": [
+            "{a}.{t} means {a} ones and {t} tenths.",
+            "{a} ones = {a}0 tenths. Plus {t} more = ?"
+          ],
+          "commonMistakes": [
+            "{a} + {t}",
+            "{t}",
+            "{a} * 10"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "concept": "fractions",
+  "domain": "number-operations",
+  "grade": 4,
+  "levels": [
+    {
+      "level": 1,
+      "description": "Find equivalent fractions",
+      "templates": [
+        {
+          "id": "frac-4-1a",
+          "question": "{a}/{b} = ?/{nb}",
+          "variables": {
+            "a": { "min": 1, "max": 3 },
+            "b": { "min": 4, "max": 8 },
+            "m": { "min": 2, "max": 4 }
+          },
+          "derived": {
+            "na": "{a} * {m}",
+            "nb": "{b} * {m}"
+          },
+          "answer": "{a} * {m}",
+          "hints": [
+            "The bottom went from {b} to {nb}. What was it multiplied by?",
+            "{b} × {m} = {nb}, so multiply the top by {m} too: {a} × {m} = ?"
+          ],
+          "commonMistakes": [
+            "{a} + {m}",
+            "{b} * {m}",
+            "{a} * {m} + 1"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "description": "Add fractions with same denominator",
+      "templates": [
+        {
+          "id": "frac-4-2a",
+          "question": "{a}/{d} + {b}/{d} = ?/{d}",
+          "variables": {
+            "a": { "min": 1, "max": 3 },
+            "b": { "min": 1, "max": 3 },
+            "d": { "min": 7, "max": 12 }
+          },
+          "answer": "{a} + {b}",
+          "hints": [
+            "When denominators match, just add the numerators.",
+            "{a} + {b} = ?"
+          ],
+          "commonMistakes": [
+            "{a} + {b} + 1",
+            "{a} * {b}",
+            "{d}"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "description": "Subtract fractions with same denominator",
+      "templates": [
+        {
+          "id": "frac-4-3a",
+          "question": "{a}/{d} − {b}/{d} = ?/{d}",
+          "variables": {
+            "a": { "min": 5, "max": 9 },
+            "b": { "min": 1, "max": 4 },
+            "d": { "min": 5, "max": 10 }
+          },
+          "answer": "{a} - {b}",
+          "hints": [
+            "Same denominator — just subtract the numerators.",
+            "{a} − {b} = ?"
+          ],
+          "commonMistakes": [
+            "{a} + {b}",
+            "{a} - {b} + 1",
+            "{d}"
+          ]
+        }
+      ]
+    }
+  ]
+}
