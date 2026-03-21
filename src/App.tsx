@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { SplashScreen } from '@/screens/SplashScreen'
 import { ProfileSelect } from '@/screens/ProfileSelect'
 import { GradeSelect } from '@/screens/GradeSelect'
 import { Hub } from '@/screens/Hub'
@@ -11,7 +12,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<ProfileSelect />} />
+        <Route path="/" element={<SplashScreen />} />
+        <Route path="/profiles" element={<ProfileSelect />} />
         <Route path="/grade" element={<GradeSelect />} />
         <Route path="/hub" element={<Hub />} />
         <Route path="/play/:concept/:level" element={<ProblemScreen />} />

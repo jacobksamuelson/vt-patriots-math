@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { RetroFrame } from '@/components/RetroFrame'
 import { PixelButton } from '@/components/PixelButton'
+import { PlayerSprite } from '@/components/PlayerSprite'
 import { useGameStore } from '@/stores/game-store'
 import { getProfiles, createProfile, type Profile, type Avatar } from '@/lib/auth'
 
@@ -37,21 +38,21 @@ export function ProfileSelect() {
 
   return (
     <RetroFrame>
-      <div className="flex flex-col items-center justify-center h-full gap-8 p-8">
+      <div className="flex flex-col items-center justify-center h-full gap-6 p-8">
         {/* Title */}
         <div className="text-center">
-          <h1 className="font-pixel text-[20px] text-gold text-glow-gold leading-relaxed">
+          <h1 className="font-pixel text-[18px] text-gold text-glow-gold leading-relaxed">
             VERMONT
           </h1>
-          <h1 className="font-pixel text-[28px] text-red text-glow-red leading-relaxed">
+          <h1 className="font-pixel text-[26px] text-red text-glow-red leading-relaxed">
             PATRIOTS
           </h1>
-          <p className="font-pixel text-[12px] text-chalk/70 mt-2">MATH FOOTBALL</p>
+          <p className="font-pixel text-[11px] text-chalk/70 mt-1">MATH FOOTBALL</p>
         </div>
 
         {creating ? (
           /* New profile form */
-          <div className="flex flex-col items-center gap-6 bg-navy/80 border-2 border-gold/30 p-8 rounded-sm">
+          <div className="flex flex-col items-center gap-5 bg-navy/80 border-2 border-gold/30 p-6 rounded-sm">
             <h2 className="font-pixel text-[12px] text-gold">NEW PLAYER</h2>
 
             <input
@@ -64,24 +65,30 @@ export function ProfileSelect() {
               className="bg-navy border-2 border-chalk/30 text-chalk font-retro text-2xl px-4 py-2 text-center w-64 focus:border-gold focus:outline-none"
             />
 
-            <div className="flex gap-6">
+            <p className="font-pixel text-[8px] text-chalk/40">CHOOSE YOUR PLAYER</p>
+
+            <div className="flex gap-8">
               {(['blake', 'davion'] as const).map((avatar) => (
                 <button
                   key={avatar}
                   onClick={() => setNewAvatar(avatar)}
-                  className={`flex flex-col items-center gap-2 p-4 border-2 rounded-sm transition-colors ${
+                  className={`flex flex-col items-center gap-2 p-3 border-2 rounded-sm transition-all ${
                     newAvatar === avatar
-                      ? 'border-gold bg-navy-light'
+                      ? 'border-gold bg-gold/10 scale-105'
                       : 'border-chalk/20 hover:border-chalk/40'
                   }`}
                 >
-                  <div className="w-16 h-16 bg-blue-team rounded-sm flex items-center justify-center">
-                    <span className="font-pixel text-[10px] text-chalk">
-                      #{avatar === 'blake' ? '12' : '23'}
-                    </span>
-                  </div>
+                  <PlayerSprite
+                    avatar={avatar}
+                    size={96}
+                    animate={newAvatar === avatar}
+                    selected={newAvatar === avatar}
+                  />
                   <span className="font-pixel text-[8px] text-chalk">
-                    {avatar === 'blake' ? 'BLAKE' : 'DAVION'}
+                    {avatar === 'blake' ? 'BLAKE DRAYE' : 'DAVION TENDERSON'}
+                  </span>
+                  <span className="font-pixel text-[7px] text-chalk/40">
+                    #{avatar === 'blake' ? '12 · QB' : '23 · WR'}
                   </span>
                 </button>
               ))}
@@ -98,24 +105,20 @@ export function ProfileSelect() {
           </div>
         ) : (
           /* Profile list */
-          <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-5">
             {loading ? (
               <p className="font-retro text-2xl text-chalk/50">Loading players...</p>
             ) : profiles.length === 0 ? (
               <p className="font-retro text-2xl text-chalk/50">No players yet</p>
             ) : (
-              <div className="grid grid-cols-2 gap-4 max-h-[280px] overflow-y-auto">
+              <div className="grid grid-cols-2 gap-4 max-h-[300px] overflow-y-auto">
                 {profiles.map((profile) => (
                   <button
                     key={profile.id}
                     onClick={() => selectProfile(profile)}
-                    className="flex items-center gap-4 bg-navy border-2 border-chalk/20 hover:border-gold p-4 rounded-sm transition-colors min-w-[200px]"
+                    className="flex items-center gap-3 bg-navy border-2 border-chalk/20 hover:border-gold p-3 rounded-sm transition-colors min-w-[220px]"
                   >
-                    <div className="w-12 h-12 bg-blue-team rounded-sm flex items-center justify-center shrink-0">
-                      <span className="font-pixel text-[8px] text-chalk">
-                        #{profile.avatar === 'blake' ? '12' : '23'}
-                      </span>
-                    </div>
+                    <PlayerSprite avatar={profile.avatar as Avatar} size={48} />
                     <div className="text-left">
                       <p className="font-pixel text-[10px] text-chalk">{profile.name}</p>
                       <p className="font-retro text-lg text-chalk/50">

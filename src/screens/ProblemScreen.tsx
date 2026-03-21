@@ -288,7 +288,7 @@ export function ProblemScreen() {
               ← Hub
             </button>
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/profiles')}
               className="font-retro text-lg text-chalk/30 hover:text-chalk/60 transition-colors"
             >
               ← Home

@@ -12,7 +12,7 @@ interface Particle {
   life: number; maxLife: number; color: string; size: number
 }
 
-type Phase = 'power' | 'aiming' | 'flight' | 'result'
+type Phase = 'runup' | 'power' | 'aiming' | 'flight' | 'result'
 
 class FieldGoalState implements GameState {
   // Meters
@@ -24,6 +24,14 @@ class FieldGoalState implements GameState {
   aimDir = 1
   aimSpeed = 1.5
   lockedAim = 0
+
+  // Kicker run-up
+  kickerX = 340
+  kickerY = 370
+  kickerTargetX = 300
+  kickerTargetY = 340
+  kickerLegAngle = 0
+  kickerRunProgress = 0
 
   // Ball
   ballX = 300
@@ -66,7 +74,7 @@ class FieldGoalState implements GameState {
   }
 
   newRound() {
-    this.phase = 'power'
+    this.phase = 'runup'
     this.meterValue = 0
     this.meterDir = 1
     this.aimValue = 0.5
@@ -77,6 +85,10 @@ class FieldGoalState implements GameState {
     this.ballY = 340
     this.ballTime = 0
     this.ballSpin = 0
+    this.kickerX = 340
+    this.kickerY = 380
+    this.kickerRunProgress = 0
+    this.kickerLegAngle = 0
     this.wind = (Math.random() - 0.5) * 40
     this.meterSpeed = 2 + this.round * 0.5
     this.aimSpeed = 1.5 + this.round * 0.4
@@ -130,7 +142,18 @@ class FieldGoalState implements GameState {
       return
     }
 
-    if (this.phase === 'power') {
+    if (this.phase === 'runup') {
+      // Kicker runs toward the ball
+      this.kickerRunProgress += dt * 1.8
+      this.kickerLegAngle = Math.sin(this.kickerRunProgress * 8) * 0.5
+      this.kickerX = 340 + (300 - 340) * Math.min(this.kickerRunProgress, 1)
+      this.kickerY = 380 + (345 - 380) * Math.min(this.kickerRunProgress, 1)
+      if (this.kickerRunProgress >= 1) {
+        this.phase = 'power'
+      }
+    } else if (this.phase === 'power') {
+      // Kicker leg swings while setting power
+      this.kickerLegAngle = Math.sin(Date.now() * 0.005) * 0.15
       this.meterValue += this.meterDir * this.meterSpeed * dt
       if (this.meterValue >= 1) { this.meterValue = 1; this.meterDir = -1 }
       if (this.meterValue <= 0) { this.meterValue = 0; this.meterDir = 1 }
@@ -144,7 +167,14 @@ class FieldGoalState implements GameState {
       if (this.aimValue <= 0) { this.aimValue = 0; this.aimDir = 1 }
       if (input.clicked) {
         this.lockedAim = this.aimValue
-        this.phase = 'flight'
+        // Kick animation — swing leg then launch
+        this.kickerLegAngle = -1.2 // big backswing
+        setTimeout(() => {
+          this.kickerLegAngle = 1.5 // follow through
+        }, 150)
+        setTimeout(() => {
+          this.phase = 'flight'
+        }, 300)
         const aimOffset = (this.lockedAim - 0.5) * 300
         this.ballVx = aimOffset + this.wind * 0.3
         this.ballVy = -this.lockedPower * 1.2
@@ -289,28 +319,89 @@ class FieldGoalState implements GameState {
     ctx.fillRect(this.postLeft - 3, this.goalPostY - 64, 6, 6)
     ctx.fillRect(this.postRight - 3, this.goalPostY - 64, 6, 6)
 
-    // Kicker on the field
-    if (this.phase === 'power' || this.phase === 'aiming') {
-      // Kicker shadow
-      ctx.fillStyle = 'rgba(0,0,0,0.2)'
-      ctx.beginPath()
-      ctx.ellipse(300, 355, 12, 5, 0, 0, Math.PI * 2)
-      ctx.fill()
-      // Kicker body
-      ctx.fillStyle = '#2244aa'
-      ctx.beginPath()
-      ctx.arc(300, 340, 14, 0, Math.PI * 2)
-      ctx.fill()
-      ctx.fillStyle = '#fff'
-      ctx.font = 'bold 10px monospace'
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'middle'
-      ctx.fillText('12', 300, 340)
-      // Ball on tee
+    // Ball on tee (visible before flight)
+    if (this.phase !== 'flight' && this.phase !== 'result') {
       ctx.fillStyle = '#8B4513'
       ctx.beginPath()
-      ctx.ellipse(300, 352, 6, 4, -0.3, 0, Math.PI * 2)
+      ctx.ellipse(300, 348, 6, 4, -0.3, 0, Math.PI * 2)
       ctx.fill()
+      // Tee
+      ctx.fillStyle = '#ff6600'
+      ctx.fillRect(297, 350, 6, 3)
+    }
+
+    // Kicker on the field
+    if (this.phase === 'runup' || this.phase === 'power' || this.phase === 'aiming') {
+      const kx = this.kickerX
+      const ky = this.kickerY
+
+      // Shadow
+      ctx.fillStyle = 'rgba(0,0,0,0.25)'
+      ctx.beginPath()
+      ctx.ellipse(kx, ky + 15, 10, 4, 0, 0, Math.PI * 2)
+      ctx.fill()
+
+      // Kicking leg (animated)
+      ctx.save()
+      ctx.translate(kx, ky)
+      ctx.rotate(this.kickerLegAngle)
+      ctx.fillStyle = '#E8E8E0' // white pants
+      ctx.fillRect(-3, 0, 6, 16)
+      ctx.fillStyle = '#111' // shoe
+      ctx.fillRect(-4, 14, 8, 4)
+      ctx.restore()
+
+      // Standing leg
+      ctx.fillStyle = '#E8E8E0'
+      ctx.fillRect(kx - 7, ky, 5, 14)
+      ctx.fillStyle = '#111'
+      ctx.fillRect(kx - 8, ky + 12, 6, 4)
+
+      // Body / jersey
+      ctx.fillStyle = '#2244aa'
+      ctx.fillRect(kx - 9, ky - 16, 18, 18)
+      // Jersey stripe
+      ctx.fillStyle = '#3366dd'
+      ctx.fillRect(kx - 9, ky - 12, 18, 3)
+
+      // Arms (swinging with run)
+      const armSwing = this.phase === 'runup' ? Math.sin(this.kickerRunProgress * 8) * 0.4 : 0
+      ctx.save()
+      ctx.translate(kx - 9, ky - 12)
+      ctx.rotate(-armSwing)
+      ctx.fillStyle = '#2244aa'
+      ctx.fillRect(-4, 0, 4, 10)
+      ctx.restore()
+      ctx.save()
+      ctx.translate(kx + 9, ky - 12)
+      ctx.rotate(armSwing)
+      ctx.fillStyle = '#2244aa'
+      ctx.fillRect(0, 0, 4, 10)
+      ctx.restore()
+
+      // Helmet
+      ctx.fillStyle = '#C0C0D0'
+      ctx.beginPath()
+      ctx.arc(kx, ky - 22, 8, 0, Math.PI * 2)
+      ctx.fill()
+      // Helmet stripe
+      ctx.fillStyle = '#ffd700'
+      ctx.fillRect(kx - 1.5, ky - 30, 3, 8)
+      // Facemask
+      ctx.strokeStyle = '#C0C0D0'
+      ctx.lineWidth = 1.5
+      ctx.beginPath()
+      ctx.moveTo(kx - 5, ky - 21)
+      ctx.lineTo(kx - 8, ky - 19)
+      ctx.lineTo(kx - 5, ky - 17)
+      ctx.stroke()
+
+      // Number
+      ctx.fillStyle = '#fff'
+      ctx.font = 'bold 7px monospace'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      ctx.fillText('12', kx, ky - 7)
     }
 
     // Ball in flight

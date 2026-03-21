@@ -93,7 +93,7 @@ export function Hub() {
               ← Change Grade
             </button>
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/profiles')}
               className="font-retro text-lg text-chalk/40 hover:text-chalk/70 transition-colors"
             >
               ← Switch Player

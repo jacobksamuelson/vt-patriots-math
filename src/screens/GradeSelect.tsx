@@ -57,7 +57,7 @@ export function GradeSelect() {
         </div>
 
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/profiles')}
           className="font-retro text-xl text-chalk/40 hover:text-chalk/70 transition-colors"
         >
           ← Switch Player
