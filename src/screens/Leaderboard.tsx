@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { RetroFrame } from '@/components/RetroFrame'
-import { PixelButton } from '@/components/PixelButton'
 import { getHighScores, type MiniGameScore } from '@/lib/scores'
 
 type GameFilter = 'all' | 'passing-drill' | 'field-goal'

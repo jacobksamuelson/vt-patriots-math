@@ -52,7 +52,6 @@ export function ProblemScreen() {
     sessionScore,
     hintIndex,
     miniGameUnlocked,
-    miniGameType,
     answerCorrect,
     answerIncorrect,
     resetHint,

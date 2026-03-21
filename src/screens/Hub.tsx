@@ -120,7 +120,6 @@ export function Hub() {
                 const pct = prog
                   ? Math.round((prog.problemsCorrect / Math.max(prog.problemsAttempted, 1)) * 100)
                   : 0
-                const levelPct = Math.round(((currentLevel - 1) / max) * 100)
                 const isComplete = currentLevel > max
 
                 return (
