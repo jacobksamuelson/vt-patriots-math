@@ -1,73 +1,41 @@
-# React + TypeScript + Vite
+# Vermont Patriots Math Football
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A retro arcade math game for kids in grades 3-6. Solve math problems, build streaks, and unlock football mini-games.
 
-Currently, two official plugins are available:
+**Play now:** https://vt-patriots-math.vercel.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## What is this?
 
-## React Compiler
+An arcade-style math practice game where kids play as Vermont Patriots football players Blake Draye (#12) or Davion Tenderson (#23). Answer math problems correctly to build streaks, then play Passing Drill and Field Goal mini-games as rewards.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- **8 math concepts** across grades 3-6 (multiplication, division, fractions, angles, decimals, ratios, expressions)
+- **Template-based problem engine** that generates thousands of unique problems with progressive hints
+- **2 canvas mini-games**: Passing Drill (click-to-throw with combos) and Field Goal (power + aim timing)
+- **Retro arcade aesthetic**: pixel fonts, scanline overlays, chiptune music, particle effects
+- **Player profiles** with progress tracking and a high score leaderboard
+- **Streak system**: 5 correct answers in a row unlocks a mini-game
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React 19 + TypeScript + Vite
+- HTML5 Canvas (mini-games)
+- Tailwind CSS v4 (retro theme)
+- Zustand (state management)
+- Vercel Postgres / Neon + Drizzle ORM
+- Web Audio API (all sounds synthesized, no external files)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Development
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+For database setup, create a Neon Postgres database via Vercel, then:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+vercel env pull .env.local
+npx drizzle-kit push
 ```

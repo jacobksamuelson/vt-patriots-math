@@ -6,6 +6,8 @@ let scheduledNodes: OscillatorNode[] = []
 
 function getCtx(): AudioContext {
   if (!ctx) ctx = new AudioContext()
+  // Resume if suspended (browser autoplay policy)
+  if (ctx.state === 'suspended') ctx.resume()
   return ctx
 }
 

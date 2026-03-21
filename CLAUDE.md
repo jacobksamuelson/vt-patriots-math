@@ -49,10 +49,21 @@ Profile select → Grade select → Hub → Solve math problems → Build streak
 - `.env.local` — contains Neon connection strings (pulled via `vercel env pull`)
 - Vercel CLI linked: `vercel link --yes`
 
+## Polish Features
+- **Splash screen**: Animated scrolling field, VP shield, loading bar, golden PLAY button, intro music
+- **Intro music**: Chiptune loop via Web Audio API (square melody + triangle bass + sawtooth harmony, 140 BPM)
+- **Player sprites**: Canvas-drawn pixel-art characters — helmet, jersey, facemask, number, idle bounce animation
+- **Passing Drill effects**: Particle explosions, screen shake, combo system, ball trail, floating score pops, receiver glow on catch
+- **Field Goal kicker**: Run-up animation, leg swing on kick, follow-through before ball launches
+- **Leaderboard**: High scores from database, filterable by game type, medal rankings
+
 ## Build History
-- **Session 1 (2026-03-21)**: Built all 5 steps — scaffold, math engine, hub + progress, mini-games, polish
+- **Session 1 (2026-03-21)**: Built all 5 steps + polish in one session
+- Steps: scaffold → math engine → hub + progress → mini-games → polish (splash, music, sprites, kicker animation, leaderboard)
 - Audited all math problem templates via subagent — found and fixed 3 critical, 2 high, 4 medium issues (broken ternaries, digit concatenation in hints, improper fractions, wrong decomposition hints)
 - Originally planned Supabase, swapped to Vercel Postgres (Neon) + Drizzle since Jake has Vercel Pro
+- Deployed to Vercel: https://vt-patriots-math.vercel.app
+- GitHub: https://github.com/jacobksamuelson/vt-patriots-math
 - Updated global `~/.claude/CLAUDE.md` output routing to be project-aware (outputs go in-project when a project exists)
 
 ## Conventions

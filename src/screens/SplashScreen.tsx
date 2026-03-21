@@ -27,13 +27,24 @@ export function SplashScreen() {
     return () => clearInterval(timer)
   }, [phase])
 
-  // Start music when ready
+  // Music needs a user gesture to start (browser policy).
+  // We start it on the first click anywhere on the splash screen.
+  const [musicStarted, setMusicStarted] = useState(false)
+
   useEffect(() => {
-    if (phase === 'ready' && !muted) {
+    if (musicStarted || muted || phase === 'exit') return
+
+    function startOnClick() {
       playIntroMusic()
+      setMusicStarted(true)
+      document.removeEventListener('click', startOnClick)
     }
-    return () => { if (phase === 'ready') stopIntroMusic() }
-  }, [phase, muted])
+
+    if (phase === 'ready') {
+      document.addEventListener('click', startOnClick)
+      return () => document.removeEventListener('click', startOnClick)
+    }
+  }, [phase, muted, musicStarted])
 
   // Animated field background
   useEffect(() => {
@@ -213,11 +224,18 @@ export function SplashScreen() {
           </button>
         )}
 
-        {/* Grade hint */}
+        {/* Hints */}
         {phase === 'ready' && (
-          <p className="font-pixel text-[8px] text-chalk/30 mt-6 animate-pulse">
-            GRADES 3 — 6
-          </p>
+          <div className="flex flex-col items-center gap-2 mt-4">
+            <p className="font-pixel text-[8px] text-chalk/30 animate-pulse">
+              GRADES 3 — 6
+            </p>
+            {!musicStarted && !muted && (
+              <p className="font-pixel text-[6px] text-chalk/20">
+                CLICK ANYWHERE FOR MUSIC
+              </p>
+            )}
+          </div>
         )}
       </div>
     </div>
