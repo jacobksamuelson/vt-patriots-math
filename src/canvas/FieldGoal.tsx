@@ -508,7 +508,7 @@ class FieldGoalState implements GameState {
 
     // Aim meter (bottom)
     if (this.phase === 'aiming') {
-      const aimY = 370
+      const aimY = 320
       const aimW = 380
       const aimX = (w - aimW) / 2
 
@@ -541,7 +541,7 @@ class FieldGoalState implements GameState {
       ctx.font = '7px "Press Start 2P", monospace'
       ctx.fillStyle = '#ffd700'
       ctx.textAlign = 'center'
-      ctx.fillText('AIM', w / 2, aimY + 30)
+      ctx.fillText('AIM', w / 2, aimY - 8)
     }
 
     // HUD bar
@@ -571,12 +571,17 @@ class FieldGoalState implements GameState {
       ctx.font = '10px "Press Start 2P", monospace'
       ctx.fillStyle = 'rgba(255,255,255,0.6)'
       ctx.textAlign = 'center'
-      ctx.fillText('CLICK TO SET POWER', w / 2, h - 55)
+      ctx.fillText('CLICK TO SET POWER', w / 2, 305)
     } else if (this.phase === 'aiming') {
       ctx.font = '10px "Press Start 2P", monospace'
       ctx.fillStyle = 'rgba(255,255,255,0.6)'
       ctx.textAlign = 'center'
-      ctx.fillText('CLICK TO SET AIM', w / 2, h - 55)
+      ctx.fillText('CLICK TO SET AIM', w / 2, 305)
+    } else if (this.phase === 'runup') {
+      ctx.font = '10px "Press Start 2P", monospace'
+      ctx.fillStyle = 'rgba(255,255,255,0.4)'
+      ctx.textAlign = 'center'
+      ctx.fillText('GET READY...', w / 2, 305)
     }
 
     // Floating score pop

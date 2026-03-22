@@ -6,6 +6,7 @@ import { ScoreDisplay } from '@/components/ScoreDisplay'
 import { MathChoices } from '@/components/MathChoices'
 import { HintPanel } from '@/components/HintPanel'
 import { PixelButton } from '@/components/PixelButton'
+import { MusicToggle } from '@/components/MusicToggle'
 import { useGameStore } from '@/stores/game-store'
 import { useAudioStore } from '@/stores/audio-store'
 import { loadProblems, getMaxLevel, type Problem } from '@/content/problem-engine'
@@ -24,19 +25,6 @@ const DOMAIN_MAP: Record<string, string> = {
 }
 
 type FeedbackState = 'idle' | 'correct' | 'incorrect' | 'show-answer'
-
-function MuteButton() {
-  const { muted, toggleMute } = useAudioStore()
-  return (
-    <button
-      onClick={toggleMute}
-      className="font-retro text-xl text-chalk/40 hover:text-chalk/70 transition-colors"
-      title={muted ? 'Unmute' : 'Mute'}
-    >
-      {muted ? '🔇' : '🔊'}
-    </button>
-  )
-}
 
 export function ProblemScreen() {
   const { concept = '', level = '1' } = useParams()
@@ -201,7 +189,7 @@ export function ProblemScreen() {
               {currentIndex + 1}/{totalProblems}
             </span>
             <StreakMeter />
-            <MuteButton />
+            <MusicToggle />
           </div>
         </div>
 
