@@ -244,11 +244,8 @@ export function ProblemScreen() {
 
           {feedback === 'show-answer' && (
             <div className="flex flex-col items-center gap-2">
-              <p className="font-pixel text-[12px] text-gold">
-                ANSWER: {problem.correctAnswer}
-              </p>
               <PixelButton size="sm" variant="gold" onClick={advanceOrFinish}>
-                {isLastProblem ? 'FINISH' : 'NEXT'}
+                {isLastProblem ? 'FINISH' : 'NEXT →'}
               </PixelButton>
             </div>
           )}
@@ -262,8 +259,14 @@ export function ProblemScreen() {
             selectedAnswer={selectedAnswer}
           />
 
-          {/* Hints */}
-          <HintPanel hints={problem.hints} hintIndex={hintIndex} />
+          {/* Hints / Solution */}
+          <HintPanel
+            hints={problem.hints}
+            hintIndex={hintIndex}
+            solution={problem.solution}
+            showSolution={feedback === 'show-answer'}
+            correctAnswer={problem.correctAnswer}
+          />
         </div>
 
         {/* Bottom nav */}

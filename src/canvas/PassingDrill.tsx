@@ -414,7 +414,7 @@ export function PassingDrill({ onComplete }: Props) {
       ref={canvasRef}
       width={600}
       height={400}
-      className="border-2 border-gold/30 rounded-sm cursor-crosshair"
+      className="border-2 border-gold/30 rounded-sm cursor-crosshair touch-none"
     />
   )
 }

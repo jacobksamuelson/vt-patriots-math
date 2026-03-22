@@ -13,6 +13,7 @@ export interface GameState {
 
 /**
  * Starts a requestAnimationFrame game loop on the given canvas.
+ * Supports both mouse and touch input.
  * Returns a cleanup function that stops the loop and removes listeners.
  */
 export function startGameLoop(
@@ -27,22 +28,43 @@ export function startGameLoop(
 
   const input: InputState = { mouseX: 0, mouseY: 0, clicked: false }
 
-  function getCanvasPos(e: MouseEvent): { x: number; y: number } {
+  function getCanvasPos(clientX: number, clientY: number): { x: number; y: number } {
     const rect = canvas.getBoundingClientRect()
     return {
-      x: ((e.clientX - rect.left) / rect.width) * canvas.width,
-      y: ((e.clientY - rect.top) / rect.height) * canvas.height,
+      x: ((clientX - rect.left) / rect.width) * canvas.width,
+      y: ((clientY - rect.top) / rect.height) * canvas.height,
     }
   }
 
+  // Mouse events
   function onMouseMove(e: MouseEvent) {
-    const pos = getCanvasPos(e)
+    const pos = getCanvasPos(e.clientX, e.clientY)
     input.mouseX = pos.x
     input.mouseY = pos.y
   }
 
   function onMouseDown(e: MouseEvent) {
-    const pos = getCanvasPos(e)
+    const pos = getCanvasPos(e.clientX, e.clientY)
+    input.mouseX = pos.x
+    input.mouseY = pos.y
+    input.clicked = true
+  }
+
+  // Touch events
+  function onTouchMove(e: TouchEvent) {
+    e.preventDefault()
+    const touch = e.touches[0]
+    if (!touch) return
+    const pos = getCanvasPos(touch.clientX, touch.clientY)
+    input.mouseX = pos.x
+    input.mouseY = pos.y
+  }
+
+  function onTouchStart(e: TouchEvent) {
+    e.preventDefault()
+    const touch = e.touches[0]
+    if (!touch) return
+    const pos = getCanvasPos(touch.clientX, touch.clientY)
     input.mouseX = pos.x
     input.mouseY = pos.y
     input.clicked = true
@@ -50,6 +72,8 @@ export function startGameLoop(
 
   canvas.addEventListener('mousemove', onMouseMove)
   canvas.addEventListener('mousedown', onMouseDown)
+  canvas.addEventListener('touchmove', onTouchMove, { passive: false })
+  canvas.addEventListener('touchstart', onTouchStart, { passive: false })
 
   function frame(time: number) {
     if (!running) return
@@ -79,5 +103,7 @@ export function startGameLoop(
     cancelAnimationFrame(animId)
     canvas.removeEventListener('mousemove', onMouseMove)
     canvas.removeEventListener('mousedown', onMouseDown)
+    canvas.removeEventListener('touchmove', onTouchMove)
+    canvas.removeEventListener('touchstart', onTouchStart)
   }
 }

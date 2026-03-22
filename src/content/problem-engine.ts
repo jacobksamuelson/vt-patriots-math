@@ -36,6 +36,7 @@ export interface Problem {
   correctAnswer: number
   choices: number[]
   hints: string[]
+  solution: string[] // step-by-step solution
 }
 
 // ── JSON imports ──
@@ -191,12 +192,19 @@ export async function loadProblems(concept: string, level: number): Promise<Prob
     const choices = shuffle([correctAnswer, ...wrongChoices])
     const hints = template.hints.map((h) => interpolate(h, allVars))
 
+    // Build step-by-step solution from hints + answer
+    const solution = [
+      ...hints,
+      `The answer is ${correctAnswer}`,
+    ]
+
     problems.push({
       id: `${template.id}-${problems.length}`,
       question,
       correctAnswer,
       choices,
       hints,
+      solution,
     })
   }
 

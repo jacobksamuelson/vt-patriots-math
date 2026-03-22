@@ -196,9 +196,14 @@ export function Hub() {
               FIELD GOAL
             </PixelButton>
           </div>
-          <PixelButton size="sm" variant="gold" onClick={() => navigate('/leaderboard')}>
-            LEADERBOARD
-          </PixelButton>
+          <div className="flex gap-3">
+            <PixelButton size="sm" variant="gold" onClick={() => navigate('/trophies')}>
+              TROPHIES
+            </PixelButton>
+            <PixelButton size="sm" variant="gold" onClick={() => navigate('/leaderboard')}>
+              SCORES
+            </PixelButton>
+          </div>
         </div>
       </div>
     </RetroFrame>

@@ -7,6 +7,7 @@ import { ProblemScreen } from '@/screens/ProblemScreen'
 import { MiniGameScreen } from '@/screens/MiniGameScreen'
 import { ResultsScreen } from '@/screens/ResultsScreen'
 import { Leaderboard } from '@/screens/Leaderboard'
+import { TrophyCase } from '@/screens/TrophyCase'
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/minigame/:type" element={<MiniGameScreen />} />
         <Route path="/results" element={<ResultsScreen />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/trophies" element={<TrophyCase />} />
       </Routes>
     </BrowserRouter>
   )

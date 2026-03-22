@@ -477,17 +477,35 @@ class FieldGoalState implements GameState {
       ctx.fillRect(meterX, meterY, 28, meterH)
       ctx.strokeRect(meterX, meterY, 28, meterH)
 
-      // Sweet spot zone
-      ctx.fillStyle = 'rgba(255, 215, 0, 0.15)'
-      ctx.fillRect(meterX, meterY + meterH * 0.2, 28, meterH * 0.3)
+      // Sweet spot zone at the TOP (high power = good, green)
+      // Sweet spot = 70%-95% power (from top: meterH * 0.05 to meterH * 0.30)
+      ctx.fillStyle = 'rgba(0, 255, 100, 0.2)'
+      ctx.fillRect(meterX, meterY + meterH * 0.05, 28, meterH * 0.25)
+      // Sweet spot border
+      ctx.strokeStyle = 'rgba(0, 255, 100, 0.4)'
+      ctx.lineWidth = 1
+      ctx.strokeRect(meterX, meterY + meterH * 0.05, 28, meterH * 0.25)
+      // "MAX" label at sweet spot
+      ctx.fillStyle = 'rgba(0, 255, 100, 0.6)'
+      ctx.font = '6px "Press Start 2P", monospace'
+      ctx.textAlign = 'center'
+      ctx.fillText('MAX', meterX + 14, meterY + meterH * 0.05 - 3)
 
-      // Fill
+      // Fill — green when in sweet spot, gold mid-range, dim when low
       const val = this.phase === 'power' ? this.meterValue : this.lockedPower
       const fillH = val * meterH
-      const r = Math.floor(val > 0.7 ? 255 : val > 0.4 ? 255 : 50)
-      const g = Math.floor(val > 0.7 ? 50 : val > 0.4 ? 200 : 200)
-      ctx.fillStyle = `rgb(${r}, ${g}, 50)`
+      const inSweet = val >= 0.7 && val <= 0.95
+      const fillColor = inSweet ? '#00cc44' : val > 0.5 ? '#ffd700' : '#666'
+      ctx.fillStyle = fillColor
       ctx.fillRect(meterX + 2, meterY + meterH - fillH, 24, fillH)
+
+      // Glow when in sweet spot
+      if (inSweet && this.phase === 'power') {
+        ctx.shadowColor = '#00ff66'
+        ctx.shadowBlur = 12
+        ctx.fillRect(meterX + 2, meterY + meterH - fillH, 24, fillH)
+        ctx.shadowBlur = 0
+      }
 
       // Lock indicator
       if (this.phase === 'aiming') {
@@ -642,7 +660,7 @@ export function FieldGoal({ onComplete }: Props) {
       ref={canvasRef}
       width={600}
       height={400}
-      className="border-2 border-gold/30 rounded-sm cursor-pointer"
+      className="border-2 border-gold/30 rounded-sm cursor-pointer touch-none"
     />
   )
 }
