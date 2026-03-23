@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { STREAK_THRESHOLD, POINTS_CORRECT, POINTS_STREAK_BONUS } from '@/config'
 import type { Avatar } from '@/lib/auth'
 
-type MiniGameType = 'passing-drill' | 'field-goal'
+type MiniGameType = 'passing-drill' | 'field-goal' | 'route-running'
 
 interface GameStore {
   // Profile
@@ -87,7 +87,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       problemsAttempted: s.problemsAttempted + 1,
       hintIndex: 0,
       miniGameUnlocked: unlocked || s.miniGameUnlocked,
-      miniGameType: unlocked ? (Math.random() > 0.5 ? 'passing-drill' : 'field-goal') : s.miniGameType,
+      miniGameType: unlocked ? (['passing-drill', 'field-goal', 'route-running'] as const)[Math.floor(Math.random() * 3)] : s.miniGameType,
     }))
   },
 

@@ -12,7 +12,7 @@ interface Particle {
   life: number; maxLife: number; color: string; size: number
 }
 
-type Phase = 'runup' | 'power' | 'aiming' | 'flight' | 'result'
+type Phase = 'runup' | 'power' | 'aiming' | 'kicking' | 'flight' | 'result'
 
 class FieldGoalState implements GameState {
   // Meters
@@ -25,7 +25,8 @@ class FieldGoalState implements GameState {
   aimSpeed = 1.5
   lockedAim = 0
 
-  // Kicker run-up
+  // Kicker run-up + kick
+  kickTimer = 0
   kickerX = 340
   kickerY = 370
   kickerTargetX = 300
@@ -167,18 +168,24 @@ class FieldGoalState implements GameState {
       if (this.aimValue <= 0) { this.aimValue = 0; this.aimDir = 1 }
       if (input.clicked) {
         this.lockedAim = this.aimValue
-        // Kick animation — swing leg then launch
+        this.phase = 'kicking'
+        this.kickTimer = 0
         this.kickerLegAngle = -1.2 // big backswing
-        setTimeout(() => {
-          this.kickerLegAngle = 1.5 // follow through
-        }, 150)
-        setTimeout(() => {
-          this.phase = 'flight'
-        }, 300)
+        // Pre-compute ball trajectory
         const aimOffset = (this.lockedAim - 0.5) * 300
         this.ballVx = aimOffset + this.wind * 0.3
         this.ballVy = -this.lockedPower * 1.2
         this.ballTime = 0
+      }
+    } else if (this.phase === 'kicking') {
+      this.kickTimer += dt
+      // Leg swing animation
+      if (this.kickTimer < 0.15) {
+        this.kickerLegAngle = -1.2 // backswing
+      } else if (this.kickTimer < 0.35) {
+        this.kickerLegAngle = 1.5 // follow through
+      } else {
+        this.phase = 'flight'
       }
     } else if (this.phase === 'flight') {
       this.ballTime += dt * 2
@@ -331,7 +338,7 @@ class FieldGoalState implements GameState {
     }
 
     // Kicker on the field
-    if (this.phase === 'runup' || this.phase === 'power' || this.phase === 'aiming') {
+    if (this.phase === 'runup' || this.phase === 'power' || this.phase === 'aiming' || this.phase === 'kicking') {
       const kx = this.kickerX
       const ky = this.kickerY
 
@@ -525,7 +532,7 @@ class FieldGoalState implements GameState {
     }
 
     // Aim meter (bottom)
-    if (this.phase === 'aiming') {
+    if (this.phase === 'aiming' || this.phase === 'kicking') {
       const aimY = 320
       const aimW = 380
       const aimX = (w - aimW) / 2
@@ -548,18 +555,20 @@ class FieldGoalState implements GameState {
       ctx.lineTo(w / 2, aimY + 18)
       ctx.stroke()
 
-      // Marker
-      const markerX = aimX + this.aimValue * aimW
-      ctx.fillStyle = '#ffd700'
-      ctx.shadowColor = '#ffd700'
-      ctx.shadowBlur = 8
-      ctx.fillRect(markerX - 3, aimY - 3, 6, 22)
+      // Marker — use locked aim during kicking phase
+      const aimVal = this.phase === 'kicking' ? this.lockedAim : this.aimValue
+      const markerX = aimX + aimVal * aimW
+      const isLocked = this.phase === 'kicking'
+      ctx.fillStyle = isLocked ? '#00cc44' : '#ffd700'
+      ctx.shadowColor = isLocked ? '#00ff66' : '#ffd700'
+      ctx.shadowBlur = isLocked ? 15 : 8
+      ctx.fillRect(markerX - 4, aimY - 4, 8, 24)
       ctx.shadowBlur = 0
 
       ctx.font = '7px "Press Start 2P", monospace'
-      ctx.fillStyle = '#ffd700'
+      ctx.fillStyle = isLocked ? '#00cc44' : '#ffd700'
       ctx.textAlign = 'center'
-      ctx.fillText('AIM', w / 2, aimY - 8)
+      ctx.fillText(isLocked ? 'LOCKED!' : 'AIM', w / 2, aimY - 8)
     }
 
     // HUD bar

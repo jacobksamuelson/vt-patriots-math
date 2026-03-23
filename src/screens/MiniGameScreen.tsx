@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { RetroFrame } from '@/components/RetroFrame'
 import { PassingDrill } from '@/canvas/PassingDrill'
 import { FieldGoal } from '@/canvas/FieldGoal'
+import { RouteRunning } from '@/canvas/RouteRunning'
 import { useGameStore } from '@/stores/game-store'
 import { useAudioStore } from '@/stores/audio-store'
 import { saveMiniGameScore } from '@/lib/scores'
@@ -60,8 +61,7 @@ export function MiniGameScreen() {
     [completeMiniGame, playStreak, navigate, profileId, type, grade, currentConcept],
   )
 
-  const isPassingDrill = type === 'passing-drill'
-  const title = isPassingDrill ? 'PASSING DRILL' : 'FIELD GOAL'
+  const title = type === 'passing-drill' ? 'PASSING DRILL' : type === 'route-running' ? 'ROUTE RUNNING' : 'FIELD GOAL'
 
   return (
     <RetroFrame>
@@ -77,8 +77,10 @@ export function MiniGameScreen() {
         )}
 
         {phase === 'playing' && (
-          isPassingDrill ? (
+          type === 'passing-drill' ? (
             <PassingDrill onComplete={handleComplete} />
+          ) : type === 'route-running' ? (
+            <RouteRunning onComplete={handleComplete} />
           ) : (
             <FieldGoal onComplete={handleComplete} />
           )

@@ -195,6 +195,9 @@ export function Hub() {
             <PixelButton size="sm" variant="secondary" onClick={() => navigate('/minigame/field-goal')}>
               FIELD GOAL
             </PixelButton>
+            <PixelButton size="sm" variant="secondary" onClick={() => navigate('/minigame/route-running')}>
+              ROUTE RUNNING
+            </PixelButton>
           </div>
           <div className="flex gap-3">
             <PixelButton size="sm" variant="gold" onClick={() => navigate('/trophies')}>

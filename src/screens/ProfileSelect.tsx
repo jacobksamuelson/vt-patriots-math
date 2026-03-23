@@ -4,7 +4,7 @@ import { RetroFrame } from '@/components/RetroFrame'
 import { PixelButton } from '@/components/PixelButton'
 import { PlayerSprite } from '@/components/PlayerSprite'
 import { useGameStore } from '@/stores/game-store'
-import { getProfiles, createProfile, type Profile, type Avatar } from '@/lib/auth'
+import { getProfiles, createProfile, deleteProfile, type Profile, type Avatar } from '@/lib/auth'
 
 export function ProfileSelect() {
   const navigate = useNavigate()
@@ -13,6 +13,7 @@ export function ProfileSelect() {
   const [profiles, setProfiles] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
   const [creating, setCreating] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
   const [newName, setNewName] = useState('')
   const [newAvatar, setNewAvatar] = useState<Avatar>('blake')
 
@@ -26,6 +27,12 @@ export function ProfileSelect() {
   function selectProfile(profile: Profile) {
     setProfile(profile.id, profile.name, profile.avatar as Avatar)
     navigate('/grade')
+  }
+
+  async function handleDelete(id: string) {
+    await deleteProfile(id)
+    setProfiles((prev) => prev.filter((p) => p.id !== id))
+    setConfirmDelete(null)
   }
 
   async function handleCreate() {
@@ -113,19 +120,46 @@ export function ProfileSelect() {
             ) : (
               <div className="grid grid-cols-2 gap-4 max-h-[300px] overflow-y-auto">
                 {profiles.map((profile) => (
-                  <button
-                    key={profile.id}
-                    onClick={() => selectProfile(profile)}
-                    className="flex items-center gap-3 bg-navy border-2 border-chalk/20 hover:border-gold p-3 rounded-sm transition-colors min-w-[220px]"
-                  >
-                    <PlayerSprite avatar={profile.avatar as Avatar} size={48} />
-                    <div className="text-left">
-                      <p className="font-pixel text-[10px] text-chalk">{profile.name}</p>
-                      <p className="font-retro text-lg text-chalk/50">
-                        {profile.avatar === 'blake' ? 'Blake Draye' : 'Davion Tenderson'}
-                      </p>
-                    </div>
-                  </button>
+                  <div key={profile.id} className="relative group">
+                    {confirmDelete === profile.id ? (
+                      /* Confirm delete overlay */
+                      <div className="flex flex-col items-center gap-2 bg-navy border-2 border-red p-3 rounded-sm min-w-[220px]">
+                        <p className="font-pixel text-[8px] text-red">DELETE {profile.name}?</p>
+                        <p className="font-retro text-sm text-chalk/40">All progress will be lost</p>
+                        <div className="flex gap-2">
+                          <PixelButton size="sm" variant="danger" onClick={() => handleDelete(profile.id)}>
+                            YES
+                          </PixelButton>
+                          <PixelButton size="sm" variant="secondary" onClick={() => setConfirmDelete(null)}>
+                            NO
+                          </PixelButton>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => selectProfile(profile)}
+                        className="flex items-center gap-3 bg-navy border-2 border-chalk/20 hover:border-gold p-3 rounded-sm transition-colors min-w-[220px] w-full"
+                      >
+                        <PlayerSprite avatar={profile.avatar as Avatar} size={48} />
+                        <div className="text-left flex-1">
+                          <p className="font-pixel text-[10px] text-chalk">{profile.name}</p>
+                          <p className="font-retro text-lg text-chalk/50">
+                            {profile.avatar === 'blake' ? 'Blake Draye' : 'Davion Tenderson'}
+                          </p>
+                        </div>
+                      </button>
+                    )}
+                    {/* Delete button — visible on hover */}
+                    {confirmDelete !== profile.id && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setConfirmDelete(profile.id) }}
+                        className="absolute top-1 right-1 w-6 h-6 bg-navy/80 border border-chalk/20 rounded-sm text-chalk/30 hover:text-red hover:border-red text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                        title="Delete profile"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
                 ))}
               </div>
             )}

@@ -1,6 +1,6 @@
 import { db } from './db'
 import { profiles } from './db/schema'
-import { desc } from 'drizzle-orm'
+import { desc, eq } from 'drizzle-orm'
 
 export type Avatar = 'blake' | 'davion'
 
@@ -37,4 +37,9 @@ export async function createProfile(name: string, avatar: Avatar): Promise<Profi
     avatar: row.avatar as Avatar,
     createdAt: row.createdAt,
   }
+}
+
+export async function deleteProfile(id: string): Promise<void> {
+  // Cascades to progress and mini_game_scores via FK
+  await db.delete(profiles).where(eq(profiles.id, id))
 }
