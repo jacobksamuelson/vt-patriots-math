@@ -50,21 +50,39 @@ Profile select → Grade select → Hub → Solve math problems → Build streak
 - Vercel CLI linked: `vercel link --yes`
 
 ## Polish Features
-- **Splash screen**: Animated scrolling field, VP shield, loading bar, golden PLAY button, intro music
-- **Intro music**: Chiptune loop via Web Audio API (square melody + triangle bass + sawtooth harmony, 140 BPM)
-- **Player sprites**: Canvas-drawn pixel-art characters — helmet, jersey, facemask, number, idle bounce animation
-- **Passing Drill effects**: Particle explosions, screen shake, combo system, ball trail, floating score pops, receiver glow on catch
-- **Field Goal kicker**: Run-up animation, leg swing on kick, follow-through before ball launches
+- **Splash screen**: Animated scrolling field, VP shield, player sprites flanking title, loading bar, golden PLAY button
+- **Intro music**: Chiptune loop via Web Audio API (square melody + triangle bass + sawtooth harmony, 140 BPM), music toggle button
+- **Player sprites**: Canvas-drawn pixel-art characters — helmet with stripe, jersey with stripes, facemask, number, idle bounce animation, football for QB
+- **Passing Drill effects**: Particle explosions, screen shake, combo system (x2, x3...), ball trail, floating score pops, receiver glow on catch, juking receiver
+- **Field Goal**: Kicker run-up animation, leg swing on kick, night stadium with twinkling stars, crowd silhouette, stadium lights, wind arrows, green "MAX" sweet spot on power meter
 - **Leaderboard**: High scores from database, filterable by game type, medal rankings
 
+## Unlockables System
+11 unlockables across 3 categories, earned by milestones:
+- **Celebrations**: Confetti Burst (10 correct), Fireworks (8 streak), TD Dance (2 concepts), Stadium Roar (50 correct), Lightning (10 streak)
+- **Ball Trails**: Fire Trail (200 mini-game score), Rainbow Trail (400 mini-game score)
+- **Titles**: Rookie (1 concept), Mathlete (4 concepts), MVP (perfect level), Hall of Fame (all 8 concepts)
+- Trophy Case screen shows stats, locked/unlocked grid, next unlock hint
+
+## Learning Features
+- **Progressive hints**: Two hint levels before showing the answer
+- **Step-by-step solutions**: After 2 wrong answers, shows numbered walkthrough of how to solve the problem (auto-generated from templates)
+- **Streak system**: 5 correct in a row unlocks a mini-game reward
+
+## Mobile Support
+- Touch events (touchstart/touchmove) on all canvas mini-games
+- touch-action: none prevents browser scroll/zoom interference
+- Both Passing Drill and Field Goal playable on iPad/mobile
+
 ## Build History
-- **Session 1 (2026-03-21)**: Built all 5 steps + polish in one session
-- Steps: scaffold → math engine → hub + progress → mini-games → polish (splash, music, sprites, kicker animation, leaderboard)
-- Audited all math problem templates via subagent — found and fixed 3 critical, 2 high, 4 medium issues (broken ternaries, digit concatenation in hints, improper fractions, wrong decomposition hints)
+- **Session 1 (2026-03-21 → 2026-03-22)**: Built all 5 steps + polish + extras
+- Steps: scaffold → math engine → hub + progress → mini-games → polish → unlockables + solutions + touch
+- Audited all math problem templates via subagent — found and fixed 3 critical, 2 high, 4 medium issues
 - Originally planned Supabase, swapped to Vercel Postgres (Neon) + Drizzle since Jake has Vercel Pro
+- Kid-tested: son suggested green power meter sweet spot at top (fixed)
 - Deployed to Vercel: https://vt-patriots-math.vercel.app
 - GitHub: https://github.com/jacobksamuelson/vt-patriots-math
-- Updated global `~/.claude/CLAUDE.md` output routing to be project-aware (outputs go in-project when a project exists)
+- Updated global `~/.claude/CLAUDE.md` output routing to be project-aware
 
 ## Conventions
 - Keep it simple — personal project, not production
